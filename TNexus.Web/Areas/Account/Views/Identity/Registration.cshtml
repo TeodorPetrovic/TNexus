@@ -1,0 +1,132 @@
+﻿@model RegistrationModel
+@using Microsoft.AspNetCore.Identity
+
+@{
+	ViewData["Title"] = "Registration";
+	bool messageRecieved = false;
+}
+
+<div class="container">
+
+	<section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-8 d-flex flex-column align-items-center justify-content-center">
+
+					<div class="d-flex justify-content-center py-4">
+						<a href="index.html" class="logo d-flex align-items-center w-auto">
+							<img src="~/assets/img/nebula.png" alt="">
+							<span class="d-none d-lg-block">TNexus</span>
+						</a>
+					</div><!-- End Logo -->
+					@{
+						if (TempData["Response"] != null)
+						{
+							messageRecieved = System.Convert.ToBoolean(TempData["Response"]!.ToString());
+
+							if (messageRecieved)
+							{
+								<div class="col-lg-12 alert alert-success bg-success text-light border-0 alert-dismissible fade show position-relative" role="alert">
+									@TempData["ResponseMessage"]
+									<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+								<script>
+									window.setTimeout(function() {
+										window.location.href = 'https://localhost:44395/account/Identity/Login';
+									}, 2000);
+								</script>
+							}
+							else
+							{
+								<div class="col-lg-12 alert alert-danger bg-danger text-light border-0 alert-dismissible fade show position-relative" role="alert">
+									@Html.Raw(TempData["ResponseMessage"])
+									<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+								</div>
+							}
+						}
+					}
+
+					<div class="card mb-3">
+
+						<div class="card-body">
+
+							<div class="pt-4 pb-2">
+								<h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+								<p class="text-center small">Enter your personal details to create account</p>
+							</div>
+
+							<form asp-action="Registration" class="row g-3 needs-validation">
+								<div class="col-12">
+									<label for="UserName" class="form-label">User Name:</label>
+									<input asp-for="UserName" type="text" class="form-control" required />
+								</div>
+								<span asp-validation-for="UserName" class="invalid-feedback" style="display: block"></span>
+								<div class="col-12">
+									<label for="FirstName" class="form-label">First Name:</label>
+									<input asp-for="FirstName" type="text" class="form-control" required />
+								</div>
+								<span asp-validation-for="FirstName" class="invalid-feedback" style="display: block"></span>
+								<div class="col-12">
+									<label for="LastName" class="form-label">Last Name:</label>
+									<input asp-for="LastName" type="text" class="form-control" required />
+								</div>
+								<span asp-validation-for="LastName" class="invalid-feedback" style="display: block"></span>
+								<div class="col-12">
+									<label for="Email" class="form-label">Email:</label>
+									<input asp-for="Email" type="email" class="form-control" required />
+								</div>
+								<span asp-validation-for="Email" class="invalid-feedback" style="display: block"></span>
+								<div class="col-12">
+									<label for="Telephone" class="form-label">Telephone:</label>
+									<input asp-for="Telephone" type="text" class="form-control" required />
+								</div>
+								<span asp-validation-for="Telephone" class="invalid-feedback" style="display: block"></span>
+								<div class="col-12">
+									<label for="Password" class="form-label">Password:</label>
+									<input asp-for="Password" type="password" class="form-control" required />
+
+								</div>
+								<span asp-validation-for="Password" class="invalid-feedback" style="display: block"></span>
+								<div class="col-12">
+									<label for="ConfirmPassword" class="form-label">Confirm Password:</label>
+									<input asp-for="ConfirmPassword" type="password" class="form-control" required />
+								</div>
+								<span asp-validation-for="ConfirmPassword" class="invalid-feedback" style="display: block"></span>
+								<div class="col-12">
+									<div class="form-check">
+										<input asp-for="AcceptPrivacyPolicy" class="form-check-input" name="AcceptPrivacyPolicy" type="checkbox" value="" required>
+										<label class="form-check-label" for="AcceptPrivacyPolicy">I agree and accept the <a href="https://google.com">terms and conditions</a></label>
+									</div>
+								</div>
+								<span asp-validation-for="AcceptPrivacyPolicy" class="invalid-feedback"></span>
+								<div class="col-12">
+									<button class="btn btn-primary w-100" type="submit">Register</button>
+								</div>
+								<div class="col-12">
+									<p class="small mb-0">Already have an account? <a asp-area="Account" asp-controller="Identity" asp-action="Login" class="small mb-0">Log in!</a></p>
+								</div>
+							</form>
+
+						</div>
+					</div>
+
+					<div class="credits">
+						<!-- All the links in the footer should remain intact. -->
+						<!-- You can delete the links only if you purchased the pro version. -->
+						<!-- Licensing information: https://bootstrapmade.com/license/ -->
+						<!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+						Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+</div>
+
+@section Scripts{
+	<script src="~/assets/js/jquery-3.6.0.min.js"></script>
+	<script src="~/assets/js/jquery.validate.min.js"></script>
+	<script src="~/assets/js/jquery.validate.unobtrusive.min.js"></script>
+}

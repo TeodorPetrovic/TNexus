@@ -1,0 +1,132 @@
+
+https://www.youtube.com/watch?v=hZ1DASYd9rk&t=577s
+https://docs.microsoft.com/en-us/aspnet/core/security/authentication/accconfirm?view=aspnetcore-6.0&tabs=visual-studio
+https://docs.microsoft.com/en-us/aspnet/identity/overview/features-api/two-factor-authentication-using-sms-and-email-with-aspnet-identity
+https://www.aspsms.com/asp.net/identity/testcredits/
+.net send whatsapp message
+https://www.twilio.com
+
+//////////////////// # Fajlovi
+
+launchSettings.json   - Predstavlja lokaciju gde definisemo startne parametre pokretanja aplikacije
+appsettings.json      - Predstavlja lokaciju gde definisemo sve staticne informacije koje ce nasa aplikacija da koristi: konekcija na bazu, parametri za neke api-je. Slicni ENVIROMENT fjalnu u PHP i drugim programima
+_ViewImports.cshtml   - Predstavlja lokaciju gde drzimo globalne ASP.NET promenljive koje kada importujemo imacemo u svim folderima
+_ViewStart.cshtml     - Predstavlja lokaciju gde definisemo koji view cemo prikazati(obicno stoji prazno sem jedng glavnog koji je obican Layout)
+share/                - Predstavlja lokaciju gde se nalaze svi html i cs fajlovi koji se mogu koristiti u ostalim view-ovima
+
+
+//////////////////// # Fajlovi
+
+
+//////////////////// # Koraci i objasnjenja
+
+/*	 1. Program.cs
+Ovde definisemo pipeline koja ce nasa aplikacija koristiti, Aplikacija ce pratiti tok pipelina. U ovom slucaju ici ce Enviroment, pa UseHttpsRedirect, pa staticFiles
+pa routing pa autorizacija pa mapiranja kontroler. Sada ako bismo zeleli da implementiramo autentifikaciju u nasoj aplikaciji moramo da pazimo na kom mestu da ga stavimo
+jer ne mozemo da stavimo autentifikaciju posle autorizacije u nasem projektu.
+
+/*	2. Program.cs
+Defaltna ruta nase web aplikacije, ako putanja nije definisana u url-u web browsera ovo ce biti redirekcije aplikacije
+podesili smo podrazumevani kontroler i podrezumevanu akciju
+
+	5.
+Sledeci korak jeste da napravimo dve nova projekta tipa biblioteka koje cemo koristiti za sledece stvari:
+	
+	* "TNexus.Repository" - Mapiramo klase sa tabelama koje se nalaze u bazi podataka
+	* "TNexus.Service"    - Ne izvrsavamo delove koda direktno iz aplikacije nego ih pokrecemo kao jedan zaseban servis ????
+
+	4.
+U TNexus.Web pravimo novi folder "Database" u kome cemo cuvati podatke vezane za objekte tj. tabele koje se nalaze u bazi. Ovde cemo definisati sve tabele i veze izmedju tabela koje smo hteli da napravimo
+Nasa baza ce imati sledece tabele.
+
+
+
+/*	5. Manufacturer.cs
+Moramo da stavimo ovaj ICollection da bismo nagovestili nas program prilikom kreniranja baze ka postoji veza ka drugoj tabeli.
+U ovom slucaju ta veza je jedan na vise. Jedan manufacture se nalazi vise puta u tabeli telefon.
+
+/*	6. Telephone.cs
+U klasi za Bazu Manufacturer.cs smo definisali da postoji veza ka telefonima koja je jedan naprema vise. Ovde takodje
+moramo definisati da postoji veza vise naprema jedan (fakticki suprotno od drugog entiteta, jer tak je uvek)
+
+	7. Ovo uraditi i za sve ostale klase
+
+	8. U appsettings.json definisati parametre za konekciju za bazu
+
+	9. Pravimo ApplicationDbContext.cs u kome cemo definisati parametre za kreniranje tabela u bazi.
+
+/*	10. ApplicationDbContext.cs
+Ovde definisemo koje parametre cemo koristiti za konekciju na bazu. Prvo moramo da uvezemo dodatnu bibioteky za metodu UseSqlServer
+Takodje smo definisali koje tabele ce nasa aplikacija da koristi
+
+	11. Otvori Nugat packet manager console i pokrenuti funkciju za kreiranje migracije
+		"Add-Migration InitialCreate"
+
+	12. Sledeca komanda koju pokrecemo jeste 
+		"Update-Database"
+
+	13. Kreiramo novu datoteku koja se zove area. U kojoj cemo segmentirati delove nase aplilkaciju u svoje gdrupacije.
+
+	14. Kreiramo novu Grupaciju tipa area koju cemo nazvati "Account" jer ce biti zaduzena za identifikacije korisnika i ostalih slicnih podataka.
+
+	15. Sledeci korak jeste da napravimo novi kontroler IdentityControler (pazeci na konvenciju imenovanja) uci u njeca.
+
+	16. Moramo da kreiramo view-ove za sve redirekcije koje se nalaze u kontroleru. Ako bismo zeleli da koristimo zasebne layout-ove za odredjene view-ove moracemo da napravimo
+	ili dodamo samostalne viewImports and viewStart datoteke zajedno sa zasebnim Shered folderom u kome se nalaze LoginLayout koji cemo koristiti prilikom generisanja stranice.
+
+	17. Koristicemo ASP NET za kreiranje korisnika i on ima vec predefinisanu listi parametara koji korisnici imaju. Ali ako bismo zeleli da dodamo dodatne parametre moramo to 
+	uraditi na sledeci nacin. Kreiramo ApplicationUser.cs fajl u kome cemo definisati dodatne parametre.
+
+/*  18. ApplicationUser.cs
+Pravimo klasu koja nasledjuje dve parametre iz defaultne klase za kreiranje korisnika. i dodajemo i nase parametre
+
+/*  19. ApplicationDbContext.cs
+Nakon napravljene prosirene klase ApplicationUser sada moramo nasem DbContextu da prosledimo da postoji vodjenje evidencije koji korisnici ovde postoje
+kao i njihove privilegije. Takodje posle ovoga moramo da napravimo novu migraciju koje ce modifikovati nasu bazu podataka.
+
+/*  20. Program.cs
+Ovde moramo definisati da nasa aplikacija ima mogucnost da pravi i manipulise sa korisnicima.
+
+/*  21. Program.cs
+Ovde smo definisali dodatne parametre koji cemo koristiti prilikom kreiranja korisnika
+
+/*  22. Program.cs
+Kada smo kreirali areas zaboravili smo da dodamo ovde da on postoji
+
+/*	23. IdentityController.cs
+Sledeci nas korak jeste da kreiramo usermanager i signinmanager koji cemo koristiti za manipulisanjem korisnika prilikom logovanja i kreiranja korisnika
+
+	24. IdentityController.cs
+Pravimo regione radi bolje organizacije koda. Imacemo 2 regiona jedan za HttpGet metode i drugi za HttpPost metode.
+
+	25. Napravljene su putanje koje ce se koristiti za pristu tim stranicama ali same stranice nisu napravljene te stranice i ostale komponente cemo napraviti
+u area delu koji pripada ovom prethodnom kontroleru. Pravicemo sledece stvrai.
+
+		1. RegistrationModel.cs
+		2. LoginModel.cs
+		3. Registration.cshtml
+		4. Login.cshtml
+	
+	26.  RegistrationModel.cs
+U ovom dokumentu definisemo parametre koje ce nasa aplikacija da kupi prilikom pritiska na dugne register. I mi mapiramo vrednosti koje se tu nalaze sa vrednostima u modelu.
+Koje cemo kasnije moci da koristimo u aplikaciji. Ovo moramo da uradimo i za login i za register stranicu. Takodje moramo u cshtml kodu da uvodimo asp .net atribute koje ce 
+povezati ove vrednosti sa ovima u modelu
+
+//[ValidateAntiForgeryToken] Proveri sta je ovo
+
+	27. Registration.cshtml
+Napraviti registracionu stranicu i nju prilagoditi za njen rad. Napraviti i deo koji ce generisati polja u slucaju da se ustesno ili neuspesno nesto desilo
+
+	28. IdentityController
+Napraviti post medotu koja ce raditi registraciju korisnika
+
+	
+
+
+
+
+
+   
+
+
+//////////////////// # Koraci i objasnjenja

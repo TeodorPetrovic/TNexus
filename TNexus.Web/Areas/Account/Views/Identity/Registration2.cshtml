@@ -1,0 +1,150 @@
+﻿@model RegistrationModel
+@using Microsoft.AspNetCore.Identity
+
+@{
+	ViewData["Title"] = "Registration";
+
+	bool messageRecieved = false;
+
+	if (TempData["Response"] != null)
+	{
+		messageRecieved = System.Convert.ToBoolean(TempData["Response"]!.ToString());
+
+		if (messageRecieved)
+		{
+			//<input type='hidden' id='success' value='@TempData["ResponseMessage"]' />
+			//<div class="alert alert-primary alert-dismissible fade show" role="alert">
+			//	<span>@TempData["ResponseMessage"]</span>
+			//	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			//		<span aria-hidden="true">×</span>
+			//	</button>
+			//</div>
+			<div class="alert">
+				<span class="fas fa-exclamation-circle"></span>
+				<span id="success" class="msg">@TempData["ResponseMessage"]</span>
+				<div class="close-btn">
+					<span class="fas fa-times"></span>
+				</div>
+			</div>
+		}
+		else
+		{
+			//<input type="hidden" id="error" value="@TempData["ResponseMessage"]" />
+			//<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			//	<span>@TempData["ResponseMessage"]</span>
+			//	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			//		<span aria-hidden="true">×</span>
+			//	</button>
+			//</div>
+			<div class="alert">
+				<span class="fas fa-exclamation-circle"></span>
+				<span id="error" class="msg">@TempData["ResponseMessage"]</span>
+				<div class="close-btn">
+					<span class="fas fa-times"></span>
+				</div>
+			</div>
+		}
+	}
+}
+
+<!-- Sign up form -->
+<section class="signup">
+	<div class="container">
+		<div class="signup-content">
+			<div class="signup-form">
+				<h2 class="form-title">Sign up</h2>
+				<form asp-action="Registration" class="register-form" id="register-form">
+					<div class="form-group">
+						<label for="UserName"><i class="bi bi-file-person-fill"></i></label>
+						<input asp-for="UserName" type="text" required />
+					</div>
+					<span asp-validation-for="UserName" class="text-danger"></span>
+					<div class="form-group">
+						<label for="FirstName"><i class="bi bi-card-text"></i></label>
+						<input asp-for="FirstName" type="text" required />
+					</div>
+					<span asp-validation-for="FirstName" class="text-danger"></span>
+					<div class="form-group">
+						<label for="LastName"><i class="bi bi-card-text"></i></label>
+						<input asp-for="LastName" type="text" required />
+					</div>
+					<span asp-validation-for="LastName" class="text-danger"></span>
+					<div class="form-group">
+						<label for="Email"><i class="bi bi-envelope-fill"></i></label>
+						<input asp-for="Email" type="text" required />
+					</div>
+					<span asp-validation-for="Email" class="text-danger"></span>
+					<div class="form-group">
+						<label for="Telephone"><i class="bi bi-telephone-fill"></i></label>
+						<input asp-for="Telephone" type="text" required />
+					</div>
+					<span asp-validation-for="Telephone" class="text-danger"></span>
+					<div class="form-group">
+						<label for="Password"><i class="bi bi-file-lock2-fill"></i></label>
+						<input asp-for="Password" type="password" required />
+					</div>
+					<span asp-validation-for="Password" class="text-danger"></span>
+					<div class="form-group">
+						<label for="ConfirmPassword"><i class="bi bi-file-lock2"></i></label>
+						<input asp-for="ConfirmPassword" type="password" required />
+					</div>
+					<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+					<div class="form-group">
+						<input type="checkbox" asp-for="AcceptPrivacyPolicy" name="AcceptPrivacyPolicy-term" id="AcceptPrivacyPolicy-term" class="agree-term" />
+						<label for="AcceptPrivacyPolicy-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+					</div>
+					<span asp-validation-for="AcceptPrivacyPolicy" class="text-danger"></span>
+					<div class="form-group">
+						<button class="form-submit" type="submit">Register</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="signup-image" style="margin-top: 120px;">
+				<figure><img src="~/images/signup-image.jpg" alt="sing up image"></figure>
+				<a asp-area="Account" asp-controller="Identity" asp-action="Login" class="signup-image-link">I am already member</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+@section Scripts {
+	@*Napisi ga ovde*@
+	<script src="~/vendor/jquery/jquery.min.js"></script>
+	<script src="~/vendor/jquery/pnotify.js"></script>
+	<script src="~/vendor/jquery/jquery.validate.min.js"></script>
+	<script src="~/vendor/jquery/jquery.validate.unobtrusive.min.js"></script>
+	@*	<script>
+		$(document).ready(function() {
+			var err = $('#error').val();
+			var succ = $('#success').val();
+
+			if (err) {
+				$('.alert').addClass("show");
+				$('.alert').removeClass("hide");
+				$('.alert').addClass("showAlert");
+				setTimeout(function() {
+					$('.alert').removeClass("show");
+					$('.alert').addClass("hide");
+				}, 5000);
+			}
+
+			if (succ) {
+				$('.alert').addClass("show");
+				$('.alert').removeClass("hide");
+				$('.alert').addClass("showAlert");
+				setTimeout(function() {
+					$('.alert').removeClass("show");
+					$('.alert').addClass("hide");
+				}, 5000);
+			}
+		});
+
+		$('.close-btn').click(function() {
+			$('.alert').removeClass("show");
+			$('.alert').addClass("hide");
+		});
+
+	</script>*@
+	}
