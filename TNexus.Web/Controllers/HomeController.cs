@@ -15,7 +15,6 @@ namespace TNexus.Controllers
 
         public IActionResult Index()
         {
-
             if (!User.Identity!.IsAuthenticated)
             {
                 return RedirectToAction("Registration", "Identity", new { Area = "Account" });

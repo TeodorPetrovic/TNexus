@@ -99,7 +99,7 @@ namespace TNexus.Web.Areas.Account.Controllers
             if (result.Succeeded)
             {
                 ViewBag.User = userManager.GetUserAsync(User);
-                return RedirectToAction("Telephone", "Telephone", new { Area = "Hardware" });
+                return RedirectToAction("Index", "Home");
             }
             else
             {
